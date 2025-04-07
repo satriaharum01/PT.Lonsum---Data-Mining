@@ -1,16 +1,16 @@
 <div class="col-lg-8">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">Grafik Serangan</h3>
+        <h3 class="card-title">Grafik Aktual/Prediksi</h3>
       </div>
-      <canvas id="grafikSerangan" style="height: 20rem"></canvas>
+      <canvas id="grafikAktual" style="height: 20rem"></canvas>
     </div>
 </div>
 <div class="col-lg-4">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">Grafik Komoditas</h3>
+        <h3 class="card-title">Sumber Daya</h3>
       </div>
-      <canvas id="grafikSeranganBulat" class="p-5" style="height: 20rem"></canvas>
+      <canvas id="grafikResources" class="p-5" style="height: 20rem"></canvas>
     </div>
 </div>

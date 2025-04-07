@@ -7,6 +7,10 @@ class Formula
     public static $chartColor = [
         'red', 'green','blue','yellow','cyan'
     ];
+
+    public static $chartColor2 = [
+        'yellow','blue','yellow','cyan'
+    ];
     
     public static $tingkatKerusakan = [
         'ringan','sedang','berat','puso'

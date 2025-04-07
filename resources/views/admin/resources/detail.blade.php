@@ -1,5 +1,6 @@
 @extends('backend.app')
 
+<?php $totalFields = count($fieldTypes); ?>
 @section('content')
 <div class="my-3 my-md-5">
     <div class="container">
@@ -13,9 +14,15 @@
                   <form class="" method="POST" enctype="multipart/form-data" action="{{url($action)}}">
                     @csrf
                     <div class="card-body row">
-                          @foreach ($fieldTypes as $field => $type)
-                              @include('models.forms', ['field' => $field, 'type' => $type, 'value' => old($field, $load->$field ?? '')])
-                          @endforeach
+
+                      @foreach ($fieldTypes as $field => $type)
+                          @include('models.forms', [
+                              'field' => $field,
+                              'type' => $type,
+                              'value' => old($field, $load->$field ?? ''),
+                              'totalFields' => $totalFields
+                          ])
+                      @endforeach
                     </div>
                     <div class="card-footer">
                       <button type="reset" class="btn btn-danger btn-back" data-bs-dismiss="modal">Kembali</button>
@@ -33,7 +40,7 @@
 <script>
   
   $("body").on("click", ".btn-back", function () {
-    window.location.href = "{{route('admin.kabupaten')}}";
+    window.location.href = "{{route($route_new)}}";
   })
 
 </script>

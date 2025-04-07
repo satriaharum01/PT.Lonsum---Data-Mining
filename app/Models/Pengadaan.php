@@ -5,28 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Shipments extends Model
+class Pengadaan extends Model
 {
     use HasFactory;
-    protected $table = 'shipments';
+    protected $table = 'pengadaan';
     protected $primaryKey = 'id';
-    protected $fillable = ['partner_id','tracking_number','type','cod_amount','delivery_fee'];
+    protected $fillable = ['id_barang','tanggal','jumlah'];
     protected $inputType = [
-        'partner_id' => 'select',
-        'tracking_number' => 'text',
-        'type' => 'select',
-        'cod_amount' => 'number',
-        'delivery_fee' => 'number'
+        'id_barang' => 'select',
+        'tanggal' => 'date',
+        'jumlah' => 'number'
     ];
 
     public function getField()
     {
         return $this->inputType;
     }
-
-    public function cariPartners()
+    
+    public function cariBarang()
     {
-        return $this->belongsTo('App\Models\Partners', 'partner_id', 'id')->withDefault(function ($data) {
+        return $this->belongsTo('App\Models\Barang', 'id_barang', 'id')->withDefault(function ($data) {
             if (collect($data->getFillable())->every(fn ($attr) => $data->$attr === null)) {
                 return null;
             }

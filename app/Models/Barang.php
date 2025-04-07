@@ -5,18 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Provinces extends Model
+class Barang extends Model
 {
     use HasFactory;
-    protected $table = 'provinces';
+    protected $table = 'barang';
     protected $primaryKey = 'id';
-    protected $fillable = ['name'];
+    protected $fillable = ['nama_barang','satuan'];
     protected $inputType = [
-        'name' => 'text'
+        'nama_barang' => 'text',
+        'satuan' => 'text'
     ];
 
     public function getField()
     {
         return $this->inputType;
+    }
+    
+    public function pengadaan()
+    {
+        return $this->hasMany(Pengadaan::class, 'id_barang');
     }
 }

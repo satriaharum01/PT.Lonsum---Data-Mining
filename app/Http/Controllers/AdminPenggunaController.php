@@ -19,6 +19,7 @@ class AdminPenggunaController extends Controller
 
         $this->page = 'admin/pengguna';
         $this->data['title'] = 'Data Pengguna';
+        $this->data['route_new'] = 'admin.pengguna';
     }
 
     public function index()

@@ -18,7 +18,8 @@
                             <thead>
                               <tr>
                                 <th width="10%"></th>
-                                <th class="text-primary" width="50%">Nama Kabupaten</th>
+                                <th class="text-primary" width="40%">Nama Barang</th>
+                                <th class="text-primary">Satuan</th>
                                 <th class="text-primary">Action</th>
                               </tr>
                             </thead>
@@ -52,8 +53,12 @@
             className: "text-center",
           },
           {
-            data: "nama_kabupaten",
-            className: "text-left",
+            data: "nama_barang",
+            className: "text-center",
+          },
+          {
+            data: "satuan",
+            className: "text-center",
           },
           {
             data: "id",
@@ -74,12 +79,12 @@
       });
     });
   $("body").on("click", ".btn-add", function () {
-    window.location.href = "{{route('admin.kabupaten.new')}}";
+    window.location.href = "{{route($route_new.'.new')}}";
   })
 
   $("body").on("click", ".btn-edit", function () {
     var Id = $(this).attr("data-id");
-    var url = "{{ route('admin.kabupaten.edit', ':id') }}".replace(':id', Id);
+    var url = "{{ route($route_new.'.edit', ':id') }}".replace(':id', Id);
     window.location.href = url;
   })
 </script>

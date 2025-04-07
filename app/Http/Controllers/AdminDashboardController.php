@@ -4,75 +4,73 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Barang;
+use App\Models\Pengadaan;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\helpers\Formula;
 use Auth;
+use App\Services\ForecastService;
 
 class AdminDashboardController extends Controller
 {
-    public function __construct()
+    private $alpha = 0.5;
+    private $beta = 0.5;
+    protected ForecastService $forecastService;
+
+    public function __construct(ForecastService $forecastService)
     {
         $this->middleware('auth');
         $this->middleware('is_admin');
+
+        $this->forecastService = $forecastService;
     }
 
     public function index()
     {
         $this->data['title'] = 'Dashboard Admin';
-        $this->data['laporan'] = 0;
-        $this->data['laporan_menunggu'] = 0;
-        $this->data['laporan_verifikasi'] = 0;
-        $this->data['kabupaten'] = 0;
-        $this->data['kecamatan'] = 0;
-        $this->data['wilayahKerja'] = 0;
-        $this->data['tanaman'] = 0;
-        $this->data['opt'] = 0;
-        $this->data['chartValue'] = 0;
+        $this->data['chartValue'] = $this->barChart();
+        $this->data['donatValue'] = $this->donatChart();
         $this->data['chartColor'] = Formula::$chartColor;
+        $this->data['chartColor2'] = Formula::$chartColor2;
 
         return view('admin/dashboard/index', $this->data);
     }
 
-
-    public function json()
+    public function getCalculate()
     {
+
+        $data = $this->forecastService->generateGraf($this->alpha, $this->beta, 1);
+
+        return $data;
     }
 
+    public function donatChart()
+    {
+        $data = Barang::select('nama_barang')
+        ->withSum('pengadaan as total_jumlah', 'jumlah')
+        ->get();
+
+        // Format untuk chart
+        $labels = [];
+        $values = [];
+
+        foreach ($data as $item) {
+            $labels[] = $item->nama_barang;
+            $values[$item->nama_barang] = [$item->total_jumlah ?? 0];
+        }
+
+        return [
+            'labels' => $labels,
+            'data' => $values,
+        ];
+    }
 
     public function barChart()
     {
+        $data = $this->forecastService->generateGraf($this->alpha, $this->beta, 1);
+        $labels = $data['label'];
+        $value = array('Aktual' => $data['data'],'Prediksi' => $data['forecast']);
 
-        $tanaman = Tanaman::select('id', 'nama_tanaman')->get(); // Ambil id dan nama tanaman langsung
-
-        // Query untuk data laporan
-        $data = Laporan::selectRaw("
-            tanaman_id,
-            MONTH(CONCAT(bulan_tahun, '-01')) as bulan,
-            SUM(r_serang + s_serang + b_serang + p_serang) as total_serangan
-        ")
-                ->whereRaw("SUBSTRING(bulan_tahun, 1, 4) = ?", [date('Y')]) // Tahun berjalan
-                ->whereIn('tanaman_id', $tanaman->pluck('id')) // ID tanaman diambil dari hasil query
-                ->groupBy('tanaman_id', 'bulan')
-                ->orderBy('bulan', 'ASC')
-                ->get();
-
-        // Format label bulan
-        $labels = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-
-        // Inisialisasi array nilai untuk setiap tanaman
-        $value = [];
-        foreach ($tanaman as $tanam) {
-            $value[$tanam->nama_tanaman] = array_fill(0, 12, 0); // Isi default 0 untuk setiap bulan
-        }
-
-        // Isi nilai total serangan berdasarkan data laporan
-        foreach ($data as $row) {
-            $tanam = $tanaman->firstWhere('id', $row->tanaman_id); // Cocokkan tanaman_id
-            $index = $row->bulan - 1; // Konversi ke index array (0 - 11)
-            $value[$tanam->nama_tanaman][$index] = $row->total_serangan;
-        }
-
-        // Return data yang telah diolah
-        return ['labels' => $labels,'data' => $value];
+        return ['labels' => $labels, 'data' => $value];
     }
 }

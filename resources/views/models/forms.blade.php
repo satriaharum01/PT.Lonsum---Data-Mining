@@ -1,10 +1,22 @@
 <?php
 use App\Http\helpers\Formula;
-
+// Atur kolom berdasarkan total fields
+    if ($totalFields %3 == 0 ) {
+        $colLg = 4;
+        $colMd = 6;
+    } elseif ($totalFields == 2) {
+        $colLg = 6;
+        $colMd = 12;
+    } elseif ($totalFields == 4) {
+        $colLg = 3;
+        $colMd = 3;
+    } else {
+        $colLg = 12;
+        $colMd = 12;
+    }
 ?>
 
-
-<div class="col-md-6 col-lg-3">
+<div class="col-md-{{$colMd}} col-lg-{{$colLg}}">
     <div class="form-group">
         <label class="form-label">{{ucwords(str_replace(['_id', '_'], [' ', ' '], $field))}}</label>
         @if ($type == 'textarea')

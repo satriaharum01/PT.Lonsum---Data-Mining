@@ -38,7 +38,9 @@ Route::prefix('account')->group(function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/pengguna', [App\Http\Controllers\AdminPenggunaController::class, 'index'])->name('pengguna');
-    Route::get('/shipment', [App\Http\Controllers\AdminShipmentController::class, 'index'])->name('shipment');
+    Route::get('/resources', [App\Http\Controllers\AdminSumberDayaController::class, 'index'])->name('resources');
+    Route::get('/stoking', [App\Http\Controllers\AdminStokingController::class, 'index'])->name('stoking');
+    Route::get('/prediksi', [App\Http\Controllers\AdminStokingController::class, 'index'])->name('prediksi');
     Route::get('/laporan', [App\Http\Controllers\AdminLaporanController::class, 'index'])->name('laporan');
     Route::get('/profile', [App\Http\Controllers\AdminProfileController::class, 'index'])->name('profile');
 
@@ -49,6 +51,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/json', [App\Http\Controllers\AdminDashboardController::class, 'json']);
         Route::get('/barChart', [App\Http\Controllers\AdminDashboardController::class, 'barChart']);
+        Route::get('/testpage', [App\Http\Controllers\AdminDashboardController::class, 'getCalculate']);
     });
 
     Route::prefix('pengguna')->name('pengguna.')->group(function () {
@@ -59,6 +62,26 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::GET('/delete/{id}', [App\Http\Controllers\AdminPenggunaController::class, 'destroy']);
         Route::get('/json', [App\Http\Controllers\AdminPenggunaController::class, 'json']);
         Route::get('/find/{id}', [App\Http\Controllers\AdminPenggunaController::class, 'find']);
+    });
+    
+    Route::prefix('resources')->name('resources.')->group(function () {
+        Route::get('/tambah', [App\Http\Controllers\AdminSumberDayaController::class, 'new'])->name('new');
+        Route::get('/edit/{id}', [App\Http\Controllers\AdminSumberDayaController::class, 'edit'])->name('edit');
+        Route::POST('/save', [App\Http\Controllers\AdminSumberDayaController::class, 'store']);
+        Route::POST('/update/{id}', [App\Http\Controllers\AdminSumberDayaController::class, 'update']);
+        Route::GET('/delete/{id}', [App\Http\Controllers\AdminSumberDayaController::class, 'destroy']);
+        Route::get('/json', [App\Http\Controllers\AdminSumberDayaController::class, 'json']);
+        Route::get('/find/{id}', [App\Http\Controllers\AdminSumberDayaController::class, 'find']);
+    });
+
+    Route::prefix('stoking')->name('stoking.')->group(function () {
+        Route::get('/tambah', [App\Http\Controllers\AdminStokingController::class, 'new'])->name('new');
+        Route::get('/edit/{id}', [App\Http\Controllers\AdminStokingController::class, 'edit'])->name('edit');
+        Route::POST('/save', [App\Http\Controllers\AdminStokingController::class, 'store']);
+        Route::POST('/update/{id}', [App\Http\Controllers\AdminStokingController::class, 'update']);
+        Route::GET('/delete/{id}', [App\Http\Controllers\AdminStokingController::class, 'destroy']);
+        Route::get('/json', [App\Http\Controllers\AdminStokingController::class, 'json']);
+        Route::get('/find/{id}', [App\Http\Controllers\AdminStokingController::class, 'find']);
     });
 
     Route::prefix('laporan')->name('laporan.')->group(function () {
