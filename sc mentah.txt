@@ -1,0 +1,19 @@
+
+                        <th rowSpan="2" style={{ verticalAlign: 'middle', textAlign: 'center' }}>
+                          No
+                        </th>
+                        <th colSpan="2" style={{ verticalAlign: 'middle', textAlign: 'center' }}>
+                          Item
+                        </th>
+                        <th rowSpan="2" style={{ verticalAlign: 'middle', textAlign: 'center' }}>
+                          Actual
+                        </th>
+                        <th rowSpan="2" style={{ verticalAlign: 'middle', textAlign: 'center' }}>
+                          Peramalan TES <br /> Triple Exponential Smoothing
+                        </th>
+                        <th rowSpan="2" style={{ verticalAlign: 'middle', textAlign: 'center' }}>
+                          MAPE
+                        </th>
+                        <th rowSpan="2" style={{ verticalAlign: 'middle', textAlign: 'center' }}>
+                          KESIMPULAN
+                        </th>

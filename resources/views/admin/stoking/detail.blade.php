@@ -44,4 +44,22 @@
   })
 
 </script>
+<script>
+  $(function () {
+    //Sumber Daya
+    $.ajax({
+       url: "{{ url('/get/barang/')}}",
+       type: "GET",
+       cache: false,
+       dataType: 'json',
+       success: function(dataResult) {
+           console.log(dataResult);
+           var resultData = dataResult.data;
+           $.each(resultData, function(index, row) {
+             $('#id_barang').append('<option value="' + row.id + '">' + row.nama_barang + '</option>');
+           })
+       }
+      });
+    })
+</script>
 @endsection

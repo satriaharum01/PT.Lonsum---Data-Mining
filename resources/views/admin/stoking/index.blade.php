@@ -1,5 +1,6 @@
 @extends('backend.app')
 @section('content')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="my-3 my-md-5">
     <div class="container">
         <div class="row">

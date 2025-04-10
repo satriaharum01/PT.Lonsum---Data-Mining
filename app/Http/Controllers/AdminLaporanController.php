@@ -3,13 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Gallery;
-use App\Models\Kabupaten;
-use App\Models\Kecamatan;
-use App\Models\WilayahKerja;
-use App\Models\Laporan;
-use App\Models\Tanaman;
-use App\Models\Verifikasi;
 use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\helpers\Formula;

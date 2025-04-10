@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('landing');
 
 Route::prefix('get')->name('get.')->group(function () {
-
+    Route::get('/barang', [App\Http\Controllers\HomeController::class, 'getBarang']);
 });
 
 //FIND ROUTER PUBLIC
@@ -40,7 +40,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/pengguna', [App\Http\Controllers\AdminPenggunaController::class, 'index'])->name('pengguna');
     Route::get('/resources', [App\Http\Controllers\AdminSumberDayaController::class, 'index'])->name('resources');
     Route::get('/stoking', [App\Http\Controllers\AdminStokingController::class, 'index'])->name('stoking');
-    Route::get('/prediksi', [App\Http\Controllers\AdminStokingController::class, 'index'])->name('prediksi');
+    Route::get('/prediksi', [App\Http\Controllers\AdminPrediksiController::class, 'index'])->name('prediksi');
     Route::get('/laporan', [App\Http\Controllers\AdminLaporanController::class, 'index'])->name('laporan');
     Route::get('/profile', [App\Http\Controllers\AdminProfileController::class, 'index'])->name('profile');
 
@@ -63,7 +63,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/json', [App\Http\Controllers\AdminPenggunaController::class, 'json']);
         Route::get('/find/{id}', [App\Http\Controllers\AdminPenggunaController::class, 'find']);
     });
-    
+
     Route::prefix('resources')->name('resources.')->group(function () {
         Route::get('/tambah', [App\Http\Controllers\AdminSumberDayaController::class, 'new'])->name('new');
         Route::get('/edit/{id}', [App\Http\Controllers\AdminSumberDayaController::class, 'edit'])->name('edit');
@@ -82,6 +82,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::GET('/delete/{id}', [App\Http\Controllers\AdminStokingController::class, 'destroy']);
         Route::get('/json', [App\Http\Controllers\AdminStokingController::class, 'json']);
         Route::get('/find/{id}', [App\Http\Controllers\AdminStokingController::class, 'find']);
+    });
+
+    Route::prefix('prediksi')->name('prediksi.')->group(function () {
+        Route::GET('/analys', [App\Http\Controllers\AdminPrediksiController::class, 'analys']);
+        Route::get('/find/{id}', [App\Http\Controllers\AdminLaporanController::class, 'find']);
     });
 
     Route::prefix('laporan')->name('laporan.')->group(function () {

@@ -2,17 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kabupaten;
-use App\Models\Kecamatan;
+use App\Models\Barang;
 use App\Models\Laporan;
+use App\Models\Pengadaan;
 use App\Models\Notif;
-use App\Models\OPT;
-use App\Models\Petugas;
-use App\Models\Tanaman;
 use App\Models\User;
-use App\Models\Verifikasi;
-use App\Models\WilayahKerja;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use DataTables;
@@ -49,10 +43,10 @@ class HomeController extends Controller
 
     //GeT FUnction
 
-    public function getKabupaten()
+    public function getBarang()
     {
-        $data = Kabupaten::select('*')
-                ->orderby('nama_kabupaten', 'ASC')
+        $data = Barang::select('*')
+                ->orderby('nama_barang', 'ASC')
                 ->get();
 
         return Datatables::of($data)
@@ -62,10 +56,12 @@ class HomeController extends Controller
 
     public function getUsersLevel($level)
     {
-        if($level == 'all'){$level = '';}
+        if ($level == 'all') {
+            $level = '';
+        }
 
         $data = User::select('*')
-                ->where('level',$level)
+                ->where('level', $level)
                 ->orderby('name', 'ASC')
                 ->get();
 
@@ -74,90 +70,4 @@ class HomeController extends Controller
             ->make(true);
     }
 
-    public function getKecamatan()
-    {
-        $data = Kecamatan::select('*')
-                ->orderby('nama_kecamatan', 'DESC')
-                ->get();
-
-        return Datatables::of($data)
-            ->addIndexColumn()
-            ->make(true);
-    }
-
-    public function getWilayahKerja($id)
-    {
-        $kecamatan = Kecamatan::select('id')->where('kabupaten_id',$id)->get()->toArray();
-        $data = WilayahKerja::select('*')
-                ->whereIn('kecamatan_id',$kecamatan)
-                ->get();
-
-        return Datatables::of($data)
-            ->addIndexColumn()
-            ->make(true);
-    }
-    
-    public function getTanaman()
-    {
-        $data = Tanaman::select('*')
-                ->orderby('nama_tanaman', 'ASC')
-                ->get();
-
-        return Datatables::of($data)
-            ->addIndexColumn()
-            ->make(true);
-    }
-
-    
-    public function getOPT()
-    {
-        $data = OPT::select('*')
-                ->orderby('nama_opt', 'ASC')
-                ->get();
-
-        return Datatables::of($data)
-            ->addIndexColumn()
-            ->make(true);
-    }
-
-
-    //FiND
-    public function findKabupaten($id)
-    {
-        $data = Kabupaten::select('*')
-                ->where('id',$id)
-                ->orderby('nama_kabupaten', 'ASC')
-                ->get();
-
-        return Datatables::of($data)
-            ->addIndexColumn()
-            ->make(true);
-    }
-
-    public function findKecamatan($id)
-    {
-        $data = Kecamatan::select('*')
-                ->where('kabupaten_id',$id)
-                ->orderby('nama_kecamatan', 'ASC')
-                ->get();
-
-        return Datatables::of($data)
-            ->addIndexColumn()
-            ->make(true);
-    }
-    
-    public function findPetugas($id)
-    {
-        $data = Petugas::select('*')
-                ->where('user_id',$id)
-                ->get();
-        foreach($data as $row)
-        {
-            $row->name = $row->cariUser->name;
-        }
-
-        return Datatables::of($data)
-            ->addIndexColumn()
-            ->make(true);
-    }
 }

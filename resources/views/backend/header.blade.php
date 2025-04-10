@@ -67,7 +67,7 @@
                     <a href="{{route('admin.stoking')}}" class="nav-link {{ (request()->is('admin/stoking')) ? 'active' : '' }} {{ (request()->is('admin/stoking/*')) ? 'active' : '' }}"><i class="fa fa-truck mr-2"></i> Pengadaan</a>
                   </li>
                   <li class="nav-item dropdown">
-                    <a href="javascript:void(0)" class="nav-link {{ (request()->is('admin/laporan')) ? 'active' : '' }} {{ (request()->is('admin/laporan/*')) ? 'active' : '' }}" data-toggle="dropdown" aria-expanded="false"><i class="fe fe-file-text"></i> Laporan</a>
+                    <a href="javascript:void(0)" class="nav-link {{ (request()->is('admin/prediksi')) ? 'active' : '' }} {{ (request()->is('admin/prediksi/*')) ? 'active' : '' }}{{ (request()->is('admin/laporan')) ? 'active' : '' }} {{ (request()->is('admin/laporan/*')) ? 'active' : '' }}" data-toggle="dropdown" aria-expanded="false"><i class="fe fe-file-text"></i> Laporan</a>
                     <div class="dropdown-menu dropdown-menu-arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(12px, 55px, 0px); top: 0px; left: 0px; will-change: transform;">
                       <a href="{{route('admin.prediksi')}}" class="dropdown-item"><i class="fe fe-file-text"></i> Prediksi</a>
                       <a href="{{route('admin.laporan')}}" class="dropdown-item"><i class="fe fe-file-text"></i> Laporan</a>
