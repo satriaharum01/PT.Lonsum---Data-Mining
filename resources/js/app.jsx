@@ -72,7 +72,7 @@ const CetakPrediksi = () => {
   ];
 
   const fetchPredict = () => {
-    axios.get("/admin/prediksi/analys'")
+    axios.get("/get/prediksi/analys'")
       .then(response => {
         setPrediksiList(response.data);
       })
@@ -105,7 +105,7 @@ const CetakPrediksi = () => {
     });
 
     try {
-      const response = await axios.get("/admin/prediksi/analys", {
+      const response = await axios.get("/get/prediksi/analys", {
         params: {
           awal,
           akhir,
@@ -247,7 +247,7 @@ const CetakPrediksi = () => {
                     <thead className="text-center text-primary">
                       <tr>
                         <th style={{ verticalAlign: 'middle', textAlign: 'center' }}>
-                          Tanggal
+                          Periode
                         </th>
                         <th style={{ verticalAlign: 'middle', textAlign: 'center' }}>
                           Jumlah (X)

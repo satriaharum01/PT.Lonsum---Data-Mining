@@ -20,6 +20,7 @@
         {{-- React content --}}
         <div id="root" data-page="{{$page}}"></div>
 
+        @include('backend.logoutModal')
         @include('backend.footer')
       </div>
     </div>

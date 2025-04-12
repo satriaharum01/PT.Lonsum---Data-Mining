@@ -18,8 +18,9 @@
         @yield('content')
 
         {{-- React content --}}
-        <div id="root" data-page="{{$page}}"></div>
+        <div id="root" data-page="{{$page}}" data-title="{{$title}}" data-subtitle="{{$subTitle}}"></div>
 
+        @include('backend.logoutModal')
         @include('backend.footer')
       </div>
     </div>

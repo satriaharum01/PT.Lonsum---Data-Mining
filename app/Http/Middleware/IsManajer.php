@@ -7,7 +7,7 @@ use AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Providers\RouteServiceProvider;
 
-class IsAdmin
+class IsManajer
 {
     /**
      * Handle an incoming request.
@@ -20,10 +20,10 @@ class IsAdmin
 
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->level == "Administrator") {
+        if (auth()->user()->level == "Manajer") {
             return $next($request);
         }
 
-        return redirect('/manajer/dashboard');
+        return redirect('/spv/dashboard');
     }
 }

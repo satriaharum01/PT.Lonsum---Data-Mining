@@ -18,7 +18,7 @@
         @yield('content')
 
         {{-- React content --}}
-        <div id="root" data-page="{{$page}}"></div>
+        <div id="root"></div>
 
         @include('backend.footer')
       </div>

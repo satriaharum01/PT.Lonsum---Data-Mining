@@ -23,9 +23,9 @@
                     @if(Auth::user()->level == 'Administrator')
                       href="{{route('admin.profile')}}"
                     
-                  @else
+                  @elseif(Auth::user()->level == 'Manajer')
 
-                  href="{{route('petugas.profile')}}"
+                  href="{{route('manajer.profile')}}"
                   @endif
                   >
                       <i class="dropdown-icon fe fe-user"></i> Profile
@@ -66,19 +66,39 @@
                   <li class="nav-item dropdown">
                     <a href="{{route('admin.stoking')}}" class="nav-link {{ (request()->is('admin/stoking')) ? 'active' : '' }} {{ (request()->is('admin/stoking/*')) ? 'active' : '' }}"><i class="fa fa-truck mr-2"></i> Pengadaan</a>
                   </li>
+                  <!--
                   <li class="nav-item dropdown">
                     <a href="javascript:void(0)" class="nav-link {{ (request()->is('admin/prediksi')) ? 'active' : '' }} {{ (request()->is('admin/prediksi/*')) ? 'active' : '' }}{{ (request()->is('admin/laporan')) ? 'active' : '' }} {{ (request()->is('admin/laporan/*')) ? 'active' : '' }}" data-toggle="dropdown" aria-expanded="false"><i class="fe fe-file-text"></i> Laporan</a>
-                    <div class="dropdown-menu dropdown-menu-arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(12px, 55px, 0px); top: 0px; left: 0px; will-change: transform;">
+                    <div class="dropdown-menu drospdown-menu-arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(12px, 55px, 0px); top: 0px; left: 0px; will-change: transform;">
                       <a href="{{route('admin.prediksi')}}" class="dropdown-item"><i class="fe fe-file-text"></i> Prediksi</a>
                       <a href="{{route('admin.laporan')}}" class="dropdown-item"><i class="fe fe-file-text"></i> Laporan</a>
                     </div>
                   </li>
-                  @else
+-->
+                  @elseif(Auth::user()->level == 'Manajer')
                   <li class="nav-item">
-                    <a href="{{route('petugas.dashboard')}}" class="nav-link {{ (request()->is('petugas/dashboard')) ? 'active' : '' }}"><i class="fe fe-home"></i> Home</a>
+                    <a href="{{route('manajer.dashboard')}}" class="nav-link {{ (request()->is('manajer/dashboard')) ? 'active' : '' }}"><i class="fe fe-home"></i> Home</a>
                   </li>
                   <li class="nav-item dropdown">
-                    <a href="{{route('petugas.laporan')}}" class="nav-link {{ (request()->is('petugas/laporan')) ? 'active' : '' }} {{ (request()->is('petugas/laporan/*')) ? 'active' : '' }}"><i class="fe fe-file-text"></i> Laporan</a>
+                    <a href="javascript:void(0)" class="nav-link {{ (request()->is('manajer/laporan')) ? 'active' : '' }} {{ (request()->is('manajer/laporan/*')) ? 'active' : '' }}" data-toggle="dropdown" aria-expanded="false"><i class="fe fe-file-text"></i> Laporan</a>
+                    <div class="dropdown-menu dropdown-menu-arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(12px, 55px, 0px); top: 0px; left: 0px; will-change: transform;">
+                      <a href="{{route('admin.prediksi')}}" class="dropdown-item"><i class="fe fe-file-text"></i> Data Historis</a>
+                      <a href="{{route('admin.laporan')}}" class="dropdown-item"><i class="fe fe-file-text"></i> Prediksi</a>
+                    </div>
+                  </li> 
+                  @elseif(Auth::user()->level == 'SPV')
+                  <li class="nav-item">
+                    <a href="{{route('spv.dashboard')}}" class="nav-link {{ (request()->is('spv/dashboard')) ? 'active' : '' }}"><i class="fe fe-home"></i> Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{route('spv.prediksi')}}" class="nav-link {{ (request()->is('spv/prediksi')) ? 'active' : '' }}"><i class="fe fe-activity"></i> Prediksi</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a href="javascript:void(0)" class="nav-link {{ (request()->is('spv/laporan')) ? 'active' : '' }} {{ (request()->is('spv/laporan/*')) ? 'active' : '' }}" data-toggle="dropdown" aria-expanded="false"><i class="fe fe-file-text"></i> Laporan</a>
+                    <div class="dropdown-menu dropdown-menu-arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(12px, 55px, 0px); top: 0px; left: 0px; will-change: transform;">
+                      <a href="{{route('spv.laporan.history')}}" class="dropdown-item"><i class="fe fe-file-text"></i> History</a>
+                      <a href="{{route('spv.laporan.prediksi')}}" class="dropdown-item"><i class="fe fe-file-text"></i> Prediksi</a>
+                    </div>
                   </li>
                   @endif
                 </ul>

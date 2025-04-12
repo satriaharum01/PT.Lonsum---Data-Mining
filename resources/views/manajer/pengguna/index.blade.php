@@ -18,8 +18,10 @@
                             <thead>
                               <tr>
                                 <th width="10%"></th>
-                                <th class="text-primary" width="20%">Nama OPT</th>
-                                <th class="text-primary" width="30%">Deskripsi</th>
+                                <th class="text-primary">Nama Pengguna</th>
+                                <th class="text-primary">Email</th>
+                                <th class="text-primary">Hak Akses</th>
+                                <th class="text-primary">Terakhir Login</th>
                                 <th class="text-primary">Action</th>
                               </tr>
                             </thead>
@@ -53,12 +55,20 @@
             className: "text-center",
           },
           {
-            data: "nama_opt",
-            className: "text-left",
+            data: "name",
+            className: "text-center",
           },
           {
-            data: "deskripsi",
-            className: "text-justify",
+            data: "email",
+            className: "text-center",
+          },
+          {
+            data: "level",
+            className: "text-center",
+          },
+          {
+            data: "last_login",
+            className: "text-center",
           },
           {
             data: "id",
@@ -79,12 +89,12 @@
       });
     });
   $("body").on("click", ".btn-add", function () {
-    window.location.href = "{{route('admin.opt.new')}}";
+    window.location.href = "{{route('admin.pengguna.new')}}";
   })
 
   $("body").on("click", ".btn-edit", function () {
     var Id = $(this).attr("data-id");
-    var url = "{{ route('admin.opt.edit', ':id') }}".replace(':id', Id);
+    var url = "{{ route('admin.pengguna.edit', ':id') }}".replace(':id', Id);
     window.location.href = url;
   })
 </script>

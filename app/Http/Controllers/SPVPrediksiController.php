@@ -5,21 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 //Use Models
 use App\Models\Barang;
-use App\Models\Pengadaan;
+use App\Models\Prediksi;
 use Yajra\DataTables\Facades\DataTables;
 use App\Services\ForecastService;
 use Carbon\Carbon;
 
-class AdminPrediksiController extends Controller
+class SPVPrediksiController extends Controller
 {
     protected ForecastService $forecastService;
 
     public function __construct(ForecastService $forecastService)
     {
         $this->middleware('auth');
-        $this->page = 'admin/prediksi';
-        $this->middleware('is_admin');
-        $this->data['route_new'] = 'admin.prediksi';
+        $this->page = 'spv/prediksi';
+        $this->middleware('is_spv');
+        $this->data['route_new'] = 'spv.prediksi';
 
         $this->forecastService = $forecastService;
     }
@@ -30,7 +30,24 @@ class AdminPrediksiController extends Controller
         $this->data['sub_title'] = 'Prediksi Pengadaan Sumber Daya';
         $this->data['page'] = 'Prediksi';
 
-        return view('admin/prediksi/index', $this->data);
+        return view('spv/prediksi/index', $this->data);
+    }
+
+
+    public function store(Request $request)
+    {
+        $fillAble = (new Prediksi())->getFillable();
+        Prediksi::create($request->only($fillAble));
+
+        return redirect($this->page);
+    }
+
+    public function destroy($id)
+    {
+        $rows = Prediksi::findOrFail($id);
+        $rows->delete();
+
+        return redirect($this->page);
     }
 
     public function analys(Request $request)

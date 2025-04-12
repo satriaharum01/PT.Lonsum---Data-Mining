@@ -11,13 +11,13 @@ class Formula
     public static $chartColor2 = [
         'yellow','blue','yellow','cyan'
     ];
-    
+
     public static $tingkatKerusakan = [
         'ringan','sedang','berat','puso'
     ];
 
     public static $level = [
-        'Admin Provinsi','Kordinator Kabupaten','Petugas Lapangan'
+        'Administrator','Manajer','SPV'
     ];
 
     public static $periode = [

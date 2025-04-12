@@ -7,7 +7,7 @@ use AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Providers\RouteServiceProvider;
 
-class IsSprinter
+class IsSPV
 {
     /**
      * Handle an incoming request.
@@ -20,7 +20,7 @@ class IsSprinter
 
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->level == "Sprinter") {
+        if (auth()->user()->level == "SPV") {
             return $next($request);
         }
 

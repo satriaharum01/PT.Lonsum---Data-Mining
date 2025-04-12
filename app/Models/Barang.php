@@ -20,9 +20,14 @@ class Barang extends Model
     {
         return $this->inputType;
     }
-    
+
     public function pengadaan()
     {
         return $this->hasMany(Pengadaan::class, 'id_barang');
+    }
+
+    public function prediksi()
+    {
+        return $this->hasMany(Prediksi::class, 'id_barang');
     }
 }

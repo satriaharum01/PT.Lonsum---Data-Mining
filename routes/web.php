@@ -16,7 +16,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('landing');
 
 Route::prefix('get')->name('get.')->group(function () {
-    Route::get('/barang', [App\Http\Controllers\HomeController::class, 'getBarang']);
+    Route::GET('/barang', [App\Http\Controllers\HomeController::class, 'getBarang']);
+    Route::GET('/pengadaan/tahun', [App\Http\Controllers\HomeController::class, 'getTahunUnik']);
+    Route::GET('/history', [App\Http\Controllers\SPVHistoryController::class, 'json']);
+    Route::get('/prediksi', [App\Http\Controllers\SPVLaporanController::class, 'json']);
+    Route::GET('/history/filter', [App\Http\Controllers\SPVHistoryController::class, 'filterData']);
+    Route::GET('/laporan', [App\Http\Controllers\SPVLaporanController::class, 'json']);
+    Route::prefix('prediksi')->name('prediksi.')->group(function () {
+        Route::GET('/analys', [App\Http\Controllers\HomeController::class, 'analys']);
+    });
+
 });
 
 //FIND ROUTER PUBLIC
@@ -94,5 +103,62 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::GET('/delete/{id}', [App\Http\Controllers\AdminLaporanController::class, 'destroy']);
         Route::get('/json', [App\Http\Controllers\AdminLaporanController::class, 'json']);
         Route::get('/find/{id}', [App\Http\Controllers\AdminLaporanController::class, 'find']);
+    });
+});
+
+//MANAJER ROUTES
+Route::prefix('manajer')->name('manajer.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\ManajerDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/prediksi', [App\Http\Controllers\ManajerPrediksiController::class, 'index'])->name('prediksi');
+    Route::get('/laporan', [App\Http\Controllers\AdminLaporanController::class, 'index'])->name('laporan');
+    Route::get('/profile', [App\Http\Controllers\ManajerProfileController::class, 'index'])->name('profile');
+
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::POST('/update/{id}', [App\Http\Controllers\AdminProfileController::class, 'update']);
+    });
+
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/json', [App\Http\Controllers\AdminDashboardController::class, 'json']);
+        Route::get('/barChart', [App\Http\Controllers\AdminDashboardController::class, 'barChart']);
+        Route::get('/testpage', [App\Http\Controllers\AdminDashboardController::class, 'getCalculate']);
+    });
+
+    Route::prefix('prediksi')->name('prediksi.')->group(function () {
+        Route::GET('/analys', [App\Http\Controllers\AdminPrediksiController::class, 'analys']);
+        Route::get('/find/{id}', [App\Http\Controllers\AdminLaporanController::class, 'find']);
+    });
+
+    Route::prefix('laporan')->name('laporan.')->group(function () {
+        Route::POST('/update/{id}', [App\Http\Controllers\AdminLaporanController::class, 'update']);
+        Route::GET('/delete/{id}', [App\Http\Controllers\AdminLaporanController::class, 'destroy']);
+        Route::get('/json', [App\Http\Controllers\AdminLaporanController::class, 'json']);
+        Route::get('/find/{id}', [App\Http\Controllers\AdminLaporanController::class, 'find']);
+    });
+});
+
+//SPV ROUTES
+Route::prefix('spv')->name('spv.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\SPVDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/prediksi', [App\Http\Controllers\SPVPrediksiController::class, 'index'])->name('prediksi');
+    Route::get('/profile', [App\Http\Controllers\SPVProfileController::class, 'index'])->name('profile');
+
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::POST('/update/{id}', [App\Http\Controllers\SPVProfileController::class, 'update']);
+    });
+
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/json', [App\Http\Controllers\SPVDashboardController::class, 'json']);
+        Route::get('/barChart', [App\Http\Controllers\SPVDashboardController::class, 'barChart']);
+        Route::get('/testpage', [App\Http\Controllers\SPVDashboardController::class, 'getCalculate']);
+    });
+
+    Route::prefix('prediksi')->name('prediksi.')->group(function () {
+        Route::GET('/analys', [App\Http\Controllers\SPVPrediksiController::class, 'analys']);
+    });
+
+    Route::prefix('laporan')->name('laporan.')->group(function () {
+        Route::get('/history', [App\Http\Controllers\SPVHistoryController::class, 'index'])->name('history');
+       
+        Route::get('/prediksi', [App\Http\Controllers\SPVLaporanController::class, 'index'])->name('prediksi');
     });
 });

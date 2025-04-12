@@ -22,6 +22,10 @@ Route::POST('/logout', [App\Http\Controllers\AuthController::class, 'logout']);
 Route::get('/user', [App\Http\Controllers\AuthController::class, 'getUser']);
 
 
+Route::prefix('data')->name('data.')->group(function () {
+    Route::POST('/prediksi/store', [App\Http\Controllers\HomeController::class, 'prediksiStore']);
+    Route::DELETE('/prediksi/delete/{id}', [App\Http\Controllers\HomeController::class, 'prediksiDestroy']);
+});
 
 Route::get('/animes', [App\Http\Controllers\AnimeController::class, 'index']);
 Route::get('/animes/show/{id}', [App\Http\Controllers\AnimeController::class, 'show']);

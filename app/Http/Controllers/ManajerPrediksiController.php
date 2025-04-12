@@ -10,16 +10,16 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Services\ForecastService;
 use Carbon\Carbon;
 
-class AdminPrediksiController extends Controller
+class ManajerPrediksiController extends Controller
 {
     protected ForecastService $forecastService;
 
     public function __construct(ForecastService $forecastService)
     {
         $this->middleware('auth');
-        $this->page = 'admin/prediksi';
-        $this->middleware('is_admin');
-        $this->data['route_new'] = 'admin.prediksi';
+        $this->page = 'manajer/prediksi';
+        $this->middleware('is_manajer');
+        $this->data['route_new'] = 'manajer.prediksi';
 
         $this->forecastService = $forecastService;
     }
@@ -28,9 +28,8 @@ class AdminPrediksiController extends Controller
     {
         $this->data['title'] = 'Laporan Prediksi';
         $this->data['sub_title'] = 'Prediksi Pengadaan Sumber Daya';
-        $this->data['page'] = 'Prediksi';
 
-        return view('admin/prediksi/index', $this->data);
+        return view('manajer/prediksi/index', $this->data);
     }
 
     public function analys(Request $request)
