@@ -1,5 +1,6 @@
 @extends('backend.app')
 
+<?php $totalFields = count($fieldTypes); ?>
 @section('content')
 <div class="my-3 my-md-5">
     <div class="container">
@@ -28,9 +29,14 @@
                         </div>
                         <div class="col-md-6 col-lg-9 row">
                         
-                        @foreach ($fieldTypes as $field => $type)
-                            @include('models.forms', ['field' => $field, 'type' => $type, 'value' => old($field, $load->$field ?? '')])
-                        @endforeach
+                      @foreach ($fieldTypes as $field => $type)
+                          @include('models.forms', [
+                              'field' => $field,
+                              'type' => $type,
+                              'value' => old($field, $load->$field ?? ''),
+                              'totalFields' => $totalFields
+                          ])
+                      @endforeach
                   </div>
                     </div>
                    
