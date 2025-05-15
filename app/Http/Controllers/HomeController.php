@@ -83,7 +83,7 @@ class HomeController extends Controller
             ->orderBy('year', 'asc')
             ->pluck('year')
             ->toArray();
-    
+
         return response()->json($years);
     }
 
@@ -122,12 +122,45 @@ class HomeController extends Controller
 
         return response()->json(['message' => 'Data created successfully', 'data' => $data], 201);
     }
-    
+
     public function prediksiDestroy($id)
     {
         $rows = Prediksi::findOrFail($id);
         $rows->delete();
 
         return response()->json(['message' => 'Data destroy successfully', 'data' => $rows], 201);
+    }
+
+    public function prediksiCetak($id)
+    {
+
+        $dataPredict = Prediksi::findorfail($id);
+
+        if (!$dataPredict) {
+            abort(404, 'Data prediksi tidak ditemukan.');
+        }
+        // Ambil input dan kasih default
+        $alpha = $dataPredict->alpha;
+        $beta = $dataPredict->beta;
+        $id = $dataPredict->id_barang;
+        $start = $dataPredict->startPeriod;
+        $end = $dataPredict->endPeriod;
+
+        // Cek validasi input wajib
+        if (!$start || !$end || !$id) {
+            abort(404, 'Data prediksi tidak ditemukan.');
+        }
+
+        // Format tanggal awal & akhir dari input type="month"
+        $startDate = Carbon::parse($start)->startOfMonth()->toDateString(); // ex: 2025-03-01
+        $endDate = Carbon::parse($end)->endOfMonth()->toDateString();       // ex: 2025-03-31
+
+        // Proses forecasting via service
+        $data = $this->forecastService->analysData($alpha, $beta, $id, $startDate, $endDate);
+
+        // Return DataTables response
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->make(true);
     }
 }

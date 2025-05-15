@@ -158,7 +158,7 @@ Route::prefix('spv')->name('spv.')->group(function () {
 
     Route::prefix('laporan')->name('laporan.')->group(function () {
         Route::get('/history', [App\Http\Controllers\SPVHistoryController::class, 'index'])->name('history');
-       
         Route::get('/prediksi', [App\Http\Controllers\SPVLaporanController::class, 'index'])->name('prediksi');
+        Route::get('/prediksi/cetak/{id}', [App\Http\Controllers\SPVLaporanController::class, 'cetak']);
     });
 });
