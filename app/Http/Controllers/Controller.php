@@ -198,4 +198,55 @@ class Controller extends BaseController
             File::delete(public_path('/assets/img/faces/' . $filename . ''));
         }
     }
+    public function countCPO()
+    {
+        $getYear = $this->getTahunTerakhir();
+        $data = Pengadaan::where('id_barang', 2)
+            ->where('tanggal', 'like', "%$getYear%")
+            ->sum('jumlah');
+        if ($data > 1000) {
+            $data = $data / 1000;
+            $satuan = 'Ton';
+        } else {
+            $satuan = 'Kilogram';
+        }
+
+        $result = [
+            'data' => number_format($data, 0),
+            'satuan' => $satuan,
+        ];
+
+        return $result;
+    }
+    public function countFFB()
+    {
+        $getYear = $this->getTahunTerakhir();
+        $data = Pengadaan::where('id_barang', 1)
+            ->where('tanggal', 'like', "%$getYear%")
+            ->sum('jumlah');
+        if ($data > 1000) {
+            $data = $data / 1000;
+            $satuan = 'Ton';
+        } else {
+            $satuan = 'Kilogram';
+        }
+
+        $result = [
+            'data' => number_format($data, 0),
+            'satuan' => $satuan,
+        ];
+
+        return $result;
+    }
+
+    public function getTahunTerakhir()
+    {
+        $years = Pengadaan::selectRaw('YEAR(tanggal) as year')
+            ->distinct()
+            ->orderBy('year', 'asc')
+            ->pluck('year')
+            ->toArray();
+
+        return end($years);
+    }
 }

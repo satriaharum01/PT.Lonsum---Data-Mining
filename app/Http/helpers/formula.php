@@ -12,6 +12,14 @@ class Formula
         'yellow','blue','yellow','cyan'
     ];
 
+    public static $bgChartColor = [
+        'rgba(255, 0, 0, 0.2)',     // red
+        'rgba(0, 128, 0, 0.2)',     // green
+        'rgba(0, 0, 255, 0.2)',     // blue
+        'rgba(255, 255, 0, 0.2)',   // yellow
+        'rgba(0, 255, 255, 0.2)',   // cyan
+    ];
+
     public static $tingkatKerusakan = [
         'ringan','sedang','berat','puso'
     ];

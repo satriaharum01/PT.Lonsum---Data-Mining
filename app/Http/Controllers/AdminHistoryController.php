@@ -7,14 +7,14 @@ use Illuminate\Http\Request;
 use App\Models\Pengadaan;
 use Yajra\DataTables\Facades\DataTables;
 
-class SPVHistoryController extends Controller
+class AdminHistoryController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->page = 'spv/history';
-        $this->middleware('is_spv');
-        $this->data['route_new'] = 'spv.history';
+        $this->page = 'admin/history';
+        $this->middleware('is_admin');
+        $this->data['route_new'] = 'admin.history';
     }
 
     public function index()
@@ -23,8 +23,6 @@ class SPVHistoryController extends Controller
         $this->data['subTitle'] = 'List History Data Stok';
         $this->data['page'] = 'History';
 
-        return view('spv/history/index', $this->data);
+        return view('admin/history/index', $this->data);
     }
-
-    
 }

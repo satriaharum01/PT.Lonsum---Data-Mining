@@ -28,10 +28,14 @@ class AdminDashboardController extends Controller
     public function index()
     {
         $this->data['title'] = 'Dashboard Admin';
-        $this->data['chartValue'] = $this->barChart();
-        $this->data['donatValue'] = $this->donatChart();
+        $this->data['chartValue'] = $this->barChart(1);
+        $this->data['donatValue'] = $this->donatChart(1);
         $this->data['chartColor'] = Formula::$chartColor;
+        $this->data['bgChartColor'] = Formula::$bgChartColor;
         $this->data['chartColor2'] = Formula::$chartColor2;
+        $this->data['cpo'] = $this->countCPO();
+        $this->data['ffb'] = $this->countFFB();
+        $this->data['barang'] = Barang::select('*')->get();
 
         return view('admin/dashboard/index', $this->data);
     }
@@ -46,8 +50,14 @@ class AdminDashboardController extends Controller
 
     public function donatChart()
     {
+        $getYear = $this->getTahunTerakhir();
         $data = Barang::select('nama_barang')
-        ->withSum('pengadaan as total_jumlah', 'jumlah')
+        ->whereHas('pengadaan', function ($query) use ($getYear) {
+            $query->where('tanggal', 'like', "%$getYear%");
+        })
+        ->withSum(['pengadaan as total_jumlah' => function ($query) use ($getYear) {
+            $query->where('tanggal', 'like', "%$getYear%");
+        }], 'jumlah')
         ->get();
 
         // Format untuk chart
@@ -65,9 +75,9 @@ class AdminDashboardController extends Controller
         ];
     }
 
-    public function barChart()
+    public function barChart($id)
     {
-        $data = $this->forecastService->generateGraf($this->alpha, $this->beta, 1);
+        $data = $this->forecastService->generateGraf($this->alpha, $this->beta, $id);
         $labels = $data['label'];
         $value = array('Aktual' => $data['data'],'Prediksi' => $data['forecast']);
 
