@@ -3,10 +3,15 @@
 @section('content')
         <div class="my-3 my-md-5">
           <div class="container">
-            <div class="page-header">
+            <div class="page-header justify-content-between">
               <h1 class="page-title">
                 Dashboard
               </h1>
+              <select name="barang" id="barang" class="btn btn-primary">
+                @foreach($barang as $row)
+                <option value="{{$row->id}}">{{$row->nama_barang}}</option>
+                @endforeach
+              </select>
             </div>
             <div class="row row-cards">
                 @include('models.barChart', ['chartValue' => $chartValue,'chartColor'=> $chartColor])
@@ -17,13 +22,60 @@
 @section('js')
 
 <script>
+    const barangId = document.getElementById('barang').value;
     const donatvalue = @json($donatValue);
-    const value = @json($chartValue);
-    const chartColor = @json($chartColor);
-    const chartColor2 = @json($chartColor2);
-
+    let value = @json($chartValue);
     // Menghitung data tertinggi dari semua dataset
     let maxDataValue = 0;
+    // Menentukan Chart Color
+    const chartColor = @json($chartColor);
+    const bgChartColor = @json($bgChartColor);
+    const chartColor2 = @json($chartColor2);
+    // Menentukan max untuk sumbu Y sebagai 40% dari data tertinggi
+    const yMax = maxDataValue * 2;
+    const stepSize = Math.ceil(yMax / 10);
+    const ctx1 = document.getElementById('grafikAktual2').getContext('2d');
+    const ctx = document.getElementById('grafikAktual').getContext('2d');
+    let myChart1 = null;
+    let myChart2 = null;
+
+    document.getElementById('barang').addEventListener('change', function () {
+        const barangId = this.value;
+
+        // Fetch data baru berdasarkan barangId
+        fetch(`/get/chart-data/${barangId}`)
+            .then(response => response.json())
+            .then(result => {
+                    initChart(result); // render Chart
+            });
+    });
+
+    //Update Chart Data
+    function updateChart(value) {
+        ctx.data.labels = value.labels;
+        ctx.data.datasets = Object.keys(value.data).map((key, index) => ({
+            label: key,
+            data: value.data[key].map(item => parseFloat(item)),
+            borderColor: chartColor[index],
+            backgroundColor: chartColor[index],
+            fill: true
+        }));
+
+        ctx.update();
+
+        
+        ctx1.data.labels = value.labels;
+        ctx1.data.datasets = Object.keys(value.data).map((key, index) => ({
+            label: key,
+            data: value.data[key].map(item => parseFloat(item)),
+            borderColor: chartColor[index],
+            backgroundColor: chartColor[index],
+            fill: true
+        }));
+
+        ctx1.update();
+    }
+    
     Object.keys(value.data).forEach(key => {
         const maxInDataset = Math.max(...value.data[key].map(item => parseFloat(item)));
         if (maxInDataset > maxDataValue) {
@@ -31,12 +83,55 @@
         }
     });
 
-    // Menentukan max untuk sumbu Y sebagai 40% dari data tertinggi
-    const yMax = maxDataValue * 2;
-    const stepSize = Math.ceil(yMax / 10);
-
-    const ctx = document.getElementById('grafikAktual').getContext('2d');
-    new Chart(ctx, {
+    function initChart(value) {
+    
+        if (myChart1) {
+            myChart1.destroy();
+            myChart2.destroy();
+        }
+        myChart1 = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: value.labels,
+            datasets: Object.keys(value.data).map((key, index) => ({
+                label: key,
+                data: value.data[key].map(item => parseFloat(item)), 
+                borderColor: chartColor[index],
+                backgroundColor: bgChartColor[index], 
+                fill: true,
+            }))
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    max: yMax,
+                    suggestedMax: yMax,
+                    stepSize: stepSize,
+                    title: {
+                        display: true,
+                        text: 'Index'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false
+                }
+            }
+        }
+    });
+    myChart2 = new Chart(ctx1, {
         type: 'bar',
         data: {
             labels: value.labels,
@@ -78,6 +173,11 @@
             }
         }
     });
+    }
+    
+  $(function () {
+   initChart(value);
+  })
 </script>
 <script>
     // Membuat dataset untuk chart donat
