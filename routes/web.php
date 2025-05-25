@@ -19,9 +19,9 @@ Route::prefix('get')->name('get.')->group(function () {
     Route::GET('/barang', [App\Http\Controllers\HomeController::class, 'getBarang']);
     Route::GET('/pengadaan/tahun', [App\Http\Controllers\HomeController::class, 'getTahunUnik']);
     Route::GET('/history', [App\Http\Controllers\HomeController::class, 'history']);
-    Route::get('/prediksi', [App\Http\Controllers\SPVLaporanController::class, 'json']);
+    Route::get('/prediksi', [App\Http\Controllers\HomeController::class, 'jsonPrediksi']);
     Route::GET('/history/filter', [App\Http\Controllers\HomeController::class, 'filterData']);
-    Route::GET('/laporan', [App\Http\Controllers\SPVLaporanController::class, 'json']);
+    Route::GET('/laporan', [App\Http\Controllers\HomeController::class, 'jsonPrediksi']);
     Route::prefix('prediksi')->name('prediksi.')->group(function () {
         Route::GET('/analys', [App\Http\Controllers\HomeController::class, 'analys']);
     });

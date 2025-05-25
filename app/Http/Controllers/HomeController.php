@@ -222,4 +222,27 @@ class HomeController extends Controller
 
         return ['labels' => $labels, 'data' => $value];
     }
+    
+    public function jsonPrediksi()
+    {
+        $data = Prediksi::select('*')
+                ->orderby('created_at', 'DESC')
+                ->get()
+                ->map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'id_barang' => $item->id_barang,
+                        'beta' => $item->beta,
+                        'alpha' => $item->alpha,
+                        'nama_barang' => $item->cariBarang->nama_barang ?? 'deleted data', // fallback kalau null
+                        'end' => date('Y F', strtotime($item->endPeriod)),
+                        'start' => date('Y F', strtotime($item->startPeriod)),
+                        'timestamp' => date('d F Y H:i', strtotime($item->created_at)),
+                    ];
+                });
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->make(true);
+    }
 }

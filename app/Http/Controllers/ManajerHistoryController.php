@@ -26,5 +26,5 @@ class ManajerHistoryController extends Controller
         return view('manajer/history/index', $this->data);
     }
 
-    
+
 }
