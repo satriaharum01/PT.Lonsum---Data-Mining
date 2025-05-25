@@ -222,7 +222,7 @@ class HomeController extends Controller
 
         return ['labels' => $labels, 'data' => $value];
     }
-    
+
     public function jsonPrediksi()
     {
         $data = Prediksi::select('*')

@@ -249,4 +249,16 @@ class Controller extends BaseController
 
         return end($years);
     }
+
+    public function getTahunUnik()
+    {
+        $years = Pengadaan::selectRaw('YEAR(tanggal) as year')
+            ->distinct()
+            ->orderBy('year', 'asc')
+            ->pluck('year')
+            ->toArray();
+
+        return $years;
+    }
+
 }

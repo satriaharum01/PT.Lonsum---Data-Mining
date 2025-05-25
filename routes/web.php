@@ -104,6 +104,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::GET('/delete/{id}', [App\Http\Controllers\AdminLaporanController::class, 'destroy']);
         Route::get('/json', [App\Http\Controllers\AdminLaporanController::class, 'json']);
         Route::get('/history', [App\Http\Controllers\AdminHistoryController::class, 'index'])->name('history');
+        Route::get('/history/cetak', [App\Http\Controllers\AdminHistoryController::class, 'cetak']);
         Route::get('/find/{id}', [App\Http\Controllers\AdminLaporanController::class, 'find']);
     });
 });
@@ -126,6 +127,7 @@ Route::prefix('manajer')->name('manajer.')->group(function () {
 
     Route::prefix('laporan')->name('laporan.')->group(function () {
         Route::get('/history', [App\Http\Controllers\ManajerHistoryController::class, 'index'])->name('history');
+        Route::get('/history/cetak', [App\Http\Controllers\ManajerHistoryController::class, 'cetak']);
         Route::get('/prediksi', [App\Http\Controllers\ManajerLaporanController::class, 'index'])->name('prediksi');
         Route::get('/prediksi/cetak/{id}', [App\Http\Controllers\ManajerLaporanController::class, 'cetak']);
     });
@@ -153,6 +155,7 @@ Route::prefix('spv')->name('spv.')->group(function () {
 
     Route::prefix('laporan')->name('laporan.')->group(function () {
         Route::get('/history', [App\Http\Controllers\SPVHistoryController::class, 'index'])->name('history');
+        Route::get('/history/cetak', [App\Http\Controllers\SPVHistoryController::class, 'cetak']);
         Route::get('/prediksi', [App\Http\Controllers\SPVLaporanController::class, 'index'])->name('prediksi');
         Route::get('/prediksi/cetak/{id}', [App\Http\Controllers\SPVLaporanController::class, 'cetak']);
     });
