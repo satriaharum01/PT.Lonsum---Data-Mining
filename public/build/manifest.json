@@ -1,14 +1,52 @@
 {
+  "_sweetalert2.esm.all-4eec07b3.js": {
+    "file": "assets/sweetalert2.esm.all-4eec07b3.js",
+    "imports": [
+      "resources/js/main.jsx"
+    ]
+  },
   "resources/js/main.css": {
-    "file": "assets/main-7e29f435.css",
+    "file": "assets/main-2f345d6c.css",
     "src": "resources/js/main.css"
   },
   "resources/js/main.jsx": {
     "css": [
-      "assets/main-7e29f435.css"
+      "assets/main-2f345d6c.css"
     ],
-    "file": "assets/main-e6fa7b23.js",
+    "dynamicImports": [
+      "resources/js/pages/prediksi.jsx",
+      "resources/js/pages/laporan.jsx",
+      "resources/js/pages/history.jsx"
+    ],
+    "file": "assets/main-2100eb7b.js",
     "isEntry": true,
     "src": "resources/js/main.jsx"
+  },
+  "resources/js/pages/history.jsx": {
+    "file": "assets/history-6a5cdd1a.js",
+    "imports": [
+      "resources/js/main.jsx",
+      "_sweetalert2.esm.all-4eec07b3.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/history.jsx"
+  },
+  "resources/js/pages/laporan.jsx": {
+    "file": "assets/laporan-b4904417.js",
+    "imports": [
+      "resources/js/main.jsx",
+      "_sweetalert2.esm.all-4eec07b3.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/laporan.jsx"
+  },
+  "resources/js/pages/prediksi.jsx": {
+    "file": "assets/prediksi-21b6095e.js",
+    "imports": [
+      "resources/js/main.jsx",
+      "_sweetalert2.esm.all-4eec07b3.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/prediksi.jsx"
   }
 }
