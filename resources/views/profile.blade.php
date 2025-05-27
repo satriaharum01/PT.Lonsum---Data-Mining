@@ -41,7 +41,7 @@
                     </div>
                    
                     <div class="card-footer">
-                      <button type="reset" class="btn btn-danger btn-back" data-bs-dismiss="modal">Kembali</button>
+                      <button type="reset" class="btn btn-danger btn-back">Kembali</button>
                       <button type="submit" class="btn btn-primary btn-simpan">Simpan</button>
                       <div class="float-right">{{env('APP_NAME')}} - {{$title}}</div>
                     </div>
@@ -89,5 +89,9 @@
             
             $('.btn-reset').prop('hidden',true);
         }
+        
+  $("body").on("click", ".btn-back", function () {
+    window.history.back();
+  })
 </script>
 @endsection

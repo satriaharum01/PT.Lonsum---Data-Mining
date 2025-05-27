@@ -9,6 +9,9 @@
 <form class="border-1 border-warning card card-md text-white" action="{{ route('custom.login') }}" method="POST" autocomplete="off" style="z-index:1000;background: rgba(0, 0, 0, 0.3);">
     @csrf
     <div class="card-body">
+        @if (session('alertMessage'))
+        <h2 class="card-title text-danger text-center mb-1">{{ (session('alertMessage'))}}</h2>
+        @endif
         <h2 class="card-title text-center mb-4">Masuk menggunakan Akunmu</h2>
         @if(session()->has('email'))
             <div class="invalid-feedback d-block" role="alert">

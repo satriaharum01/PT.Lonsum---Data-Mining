@@ -33,7 +33,7 @@ class CustomAuth extends Controller
                         ->withSuccess('Signed in');
         }
 
-        return redirect(route('login'))->withErrors(['alertMessage' => 'Email atau Password Salah']);
+        return redirect(route('login'))->with(['alertMessage' => 'Email atau Password Salah']);
     }
     public function customlogout()
     {

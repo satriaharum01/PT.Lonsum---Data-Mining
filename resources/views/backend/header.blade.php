@@ -26,6 +26,9 @@
                   @elseif(Auth::user()->level == 'Manajer')
 
                   href="{{route('manajer.profile')}}"
+                  @else
+                  
+                  href="{{route('spv.profile')}}"
                   @endif
                   >
                       <i class="dropdown-icon fe fe-user"></i> Profile
