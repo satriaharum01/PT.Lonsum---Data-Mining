@@ -10,6 +10,7 @@
                   <div class="card-header">
                     <h3 class="card-title">{{$sub_title}}</h3>
                     <div class="card-options align-items-center">
+                      <button class="btn btn-success btn-import mx-2" data-target="#uploadModal" data-toggle="modal"><i class="fa fa-file-excel"></i> Import Excel</button>
                       <button class="btn btn-primary btn-add"><i class="fa fa-plus"></i> Tambah Data</button>
                     </div>
                   </div>
@@ -42,6 +43,8 @@
         </div>
     </div>
 </div>
+
+@include('admin.stoking.preview')
 @endsection
 @section('js')
 <script>

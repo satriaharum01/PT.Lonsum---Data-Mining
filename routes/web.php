@@ -87,6 +87,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::prefix('stoking')->name('stoking.')->group(function () {
         Route::get('/tambah', [App\Http\Controllers\AdminStokingController::class, 'new'])->name('new');
         Route::get('/edit/{id}', [App\Http\Controllers\AdminStokingController::class, 'edit'])->name('edit');
+        Route::POST('/import', [App\Http\Controllers\AdminStokingController::class, 'preview'])->name('preview');
+        Route::POST('/import/process', [App\Http\Controllers\AdminStokingController::class, 'processImport']);
         Route::POST('/save', [App\Http\Controllers\AdminStokingController::class, 'store']);
         Route::POST('/update/{id}', [App\Http\Controllers\AdminStokingController::class, 'update']);
         Route::GET('/delete/{id}', [App\Http\Controllers\AdminStokingController::class, 'destroy']);

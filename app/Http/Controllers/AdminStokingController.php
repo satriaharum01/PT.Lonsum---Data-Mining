@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 //Use Models
+use App\Models\Barang;
 use App\Models\Pengadaan;
 use Yajra\DataTables\Facades\DataTables;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class AdminStokingController extends Controller
 {
@@ -25,14 +27,28 @@ class AdminStokingController extends Controller
         return view('admin/stoking/index', $this->data);
     }
 
-    public function show($id)
+    public function preview(Request $request)
     {
-        $anime = Pengadaan::findorfail($id);
         $this->data['title'] = 'Data Pengadaan';
-        $this->data['sub_title'] = $anime->title;
+        $this->data['sub_title'] = 'Preview Import Excel';
+        $this->data['barang'] = Barang::all();
 
-        return view('admin/stoking/show', $this->data);
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls',
+        ]);
+
+        $file = $request->file('file')->getRealPath();
+        $spreadsheet = IOFactory::load($file);
+        $sheet = $spreadsheet->getActiveSheet();
+        $rows = $sheet->toArray();
+
+        $preview = array_slice($rows, 0, 5); // ambil 5 baris pertama
+        $this->data['data'] = $preview;
+        $this->data['raw'] = $rows;
+
+        return view('admin.stoking.result', $this->data);
     }
+
     public function new()
     {
         $this->data['title'] = 'Data Pengadaan';
@@ -100,6 +116,30 @@ class AdminStokingController extends Controller
     {
         $rows = Pengadaan::findOrFail($id);
         $rows->delete();
+
+        return redirect($this->page);
+    }
+
+    //Import
+    public function processImport(Request $request)
+    {
+        $raw = json_decode($request->input('raw_data'), true);
+        $mapping = $request->input('mapping');
+        $idBarang = $request->input('id_barang');
+
+        foreach ($raw as $row) {
+            $tanggal = $row[$mapping['tanggal']] ?? null;
+            $jumlah = $row[$mapping['jumlah']] ?? null;
+            // Skip baris jika ada kolom kosong
+            if (is_null($tanggal) || is_null($jumlah)) {
+                continue;
+            }
+            Pengadaan::create([
+                'tanggal' => $tanggal,
+                'jumlah'    => $jumlah,
+                'id_barang'  => $idBarang ?? 0,
+            ]);
+        }
 
         return redirect($this->page);
     }
