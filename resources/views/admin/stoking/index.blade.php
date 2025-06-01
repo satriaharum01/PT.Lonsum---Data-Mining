@@ -21,6 +21,7 @@
                                 <th width="10%"></th>
                                 <th class="text-primary">Tanggal</th>
                                 <th class="text-primary" width="30%">Nama Barang</th>
+                                <th class="text-primary">Satuan</th>
                                 <th class="text-primary">Jumlah</th>
                                 <th class="text-primary">Action</th>
                               </tr>
@@ -60,6 +61,10 @@
           },
           {
             data: "nama_barang",
+            className: "text-center",
+          },
+          {
+            data: "satuan",
             className: "text-center",
           },
           {

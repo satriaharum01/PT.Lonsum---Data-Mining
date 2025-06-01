@@ -1,23 +1,23 @@
 @extends('backend.app')
 
 @section('content')
-        <div class="my-3 my-md-5">
-          <div class="container">
-            <div class="page-header justify-content-between">
-              <h1 class="page-title">
+<div class="my-3 my-md-5">
+    <div class="container">
+        <div class="page-header justify-content-between">
+            <h1 class="page-title">
                 Dashboard
-              </h1>
-              <select name="barang" id="barang" class="btn btn-primary">
+            </h1>
+            <select name="barang" id="barang" class="btn btn-primary">
                 @foreach($barang as $row)
                 <option value="{{$row->id}}">{{$row->nama_barang}}</option>
                 @endforeach
-              </select>
-            </div>
-            <div class="row row-cards">
-                @include('models.barChart', ['chartValue' => $chartValue,'chartColor'=> $chartColor])
-            </div>
-          </div>
+            </select>
         </div>
+        <div class="row row-cards">
+            @include('models.barChart', ['chartValue' => $chartValue,'chartColor'=> $chartColor])
+        </div>
+    </div>
+</div>
 @endsection
 @section('js')
 
@@ -46,7 +46,7 @@
         fetch(`/get/chart-data/${barangId}`)
             .then(response => response.json())
             .then(result => {
-                    initChart(result); // render Chart
+                initChart(result); // render Chart
             });
     });
 
@@ -63,7 +63,7 @@
 
         ctx.update();
 
-        
+
         ctx1.data.labels = value.labels;
         ctx1.data.datasets = Object.keys(value.data).map((key, index) => ({
             label: key,
@@ -75,7 +75,7 @@
 
         ctx1.update();
     }
-    
+
     Object.keys(value.data).forEach(key => {
         const maxInDataset = Math.max(...value.data[key].map(item => parseFloat(item)));
         if (maxInDataset > maxDataValue) {
@@ -84,100 +84,115 @@
     });
 
     function initChart(value) {
-    
+
         if (myChart1) {
             myChart1.destroy();
             myChart2.destroy();
         }
         myChart1 = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: value.labels,
-            datasets: Object.keys(value.data).map((key, index) => ({
-                label: key,
-                data: value.data[key].map(item => parseFloat(item)), 
-                borderColor: chartColor[index],
-                backgroundColor: bgChartColor[index], 
-                fill: true,
-            }))
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: {
-                    grid: {
-                        display: false
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    max: yMax,
-                    suggestedMax: yMax,
-                    stepSize: stepSize,
-                    title: {
-                        display: true,
-                        text: 'Index'
-                    }
-                }
+            type: 'line',
+            data: {
+                labels: value.labels,
+                datasets: Object.keys(value.data).map((key, index) => ({
+                    label: key,
+                    data: value.data[key].map(item => parseFloat(item)),
+                    borderColor: chartColor[index],
+                    backgroundColor: bgChartColor[index],
+                    fill: true,
+                }))
             },
-            plugins: {
-                legend: {
-                    position: 'top'
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        max: yMax,
+                        suggestedMax: yMax,
+                        stepSize: stepSize,
+                        title: {
+                            display: true,
+                            text: 'Index'
+                        }
+                    }
                 },
-                tooltip: {
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                tooltips: {
                     mode: 'index',
-                    intersect: false
+                    intersect: false,
+                    callbacks: {
+                        label: function (tooltipItem, chart) {
+                            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                            return datasetLabel + ': ' + tooltipItem.yLabel + ' Kg';
+                        }
+                    }
                 }
             }
-        }
-    });
-    myChart2 = new Chart(ctx1, {
-        type: 'bar',
-        data: {
-            labels: value.labels,
-            datasets: Object.keys(value.data).map((key, index) => ({
-                label: key,
-                data: value.data[key].map(item => parseFloat(item)), 
-                borderColor: chartColor[index],
-                backgroundColor: chartColor[index], 
-                fill: false
-            }))
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: {
-                    grid: {
-                        display: false
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    max: yMax,
-                    suggestedMax: yMax,
-                    stepSize: stepSize,
-                    title: {
-                        display: true,
-                        text: 'Luas Serangan (ha)'
-                    }
-                }
+        });
+
+        myChart2 = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: value.labels,
+                datasets: Object.keys(value.data).map((key, index) => ({
+                    label: key,
+                    data: value.data[key].map(item => parseFloat(item)),
+                    borderColor: chartColor[index],
+                    backgroundColor: chartColor[index],
+                    fill: false
+                }))
             },
-            plugins: {
-                legend: {
-                    position: 'top'
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        max: yMax,
+                        suggestedMax: yMax,
+                        stepSize: stepSize,
+                        title: {
+                            display: true,
+                            text: 'Aktual/Prediksi'
+                        }
+                    }
                 },
-                tooltip: {
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                tooltips: {
                     mode: 'index',
-                    intersect: false
+                    intersect: false,
+                    callbacks: {
+                        label: function (tooltipItem, chart) {
+                            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                            return datasetLabel + ': ' + tooltipItem.yLabel + ' Kg';
+                        }
+                    }
                 }
             }
-        }
-    });
+        });
+
     }
-    
-  $(function () {
-   initChart(value);
-  })
+
+
+    $(function () {
+        initChart(value);
+    })
 </script>
 <script>
     // Membuat dataset untuk chart donat
@@ -188,7 +203,7 @@
         borderColor: 'rgba(255, 255, 255, 0.3)', // Warna border
         borderWidth: 1
     }));
-    
+
     const cty = document.getElementById('grafikResources').getContext('2d');
     new Chart(cty, {
         type: 'doughnut', // Jenis chart menjadi doughnut
@@ -229,49 +244,49 @@
 </script>
 
 <script>
-  var tableId = 'data-width';
-  function exportTableToExcel(tableId) {
-    // Get the table element using the provided ID
-    const table = document.getElementById(tableId);
+    var tableId = 'data-width';
+    function exportTableToExcel(tableId) {
+        // Get the table element using the provided ID
+        const table = document.getElementById(tableId);
 
-    // Extract the HTML content of the table
-    const html = table.outerHTML;
+        // Extract the HTML content of the table
+        const html = table.outerHTML;
 
-    // Create a Blob containing the HTML data with Excel MIME type
-    const blob = new Blob([html], { type: "application/vnd.ms-excel" });
+        // Create a Blob containing the HTML data with Excel MIME type
+        const blob = new Blob([html], { type: "application/vnd.ms-excel" });
 
-    // Create a URL for the Blob
-    const url = URL.createObjectURL(blob);
+        // Create a URL for the Blob
+        const url = URL.createObjectURL(blob);
 
-    // Create a temporary anchor element for downloading
-    const a = document.createElement("a");
-    a.href = url;
+        // Create a temporary anchor element for downloading
+        const a = document.createElement("a");
+        a.href = url;
 
-    // Set the desired filename for the downloaded file
-    a.download = "Rekaptulasi Laporan.xls";
+        // Set the desired filename for the downloaded file
+        a.download = "Rekaptulasi Laporan.xls";
 
-    // Simulate a click on the anchor to trigger download
-    a.click();
+        // Simulate a click on the anchor to trigger download
+        a.click();
 
-    // Release the URL object to free up resources
-    URL.revokeObjectURL(url);
-  }
-  
-  function printDiv(divName) {
-      var printContents = document.getElementById(divName).innerHTML;
-      var originalContents = document.body.innerHTML;
-      document.body.innerHTML = printContents;
-      window.print();
-      document.body.innerHTML = originalContents;
-  }
+        // Release the URL object to free up resources
+        URL.revokeObjectURL(url);
+    }
 
-  $("body").on("click", ".btn-excel", function () {
-    exportTableToExcel(tableId);
-  })
-  
-  $("body").on("click", ".btn-print", function () {
-    printDiv('card-main');
-  })
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+
+    $("body").on("click", ".btn-excel", function () {
+        exportTableToExcel(tableId);
+    })
+
+    $("body").on("click", ".btn-print", function () {
+        printDiv('card-main');
+    })
 </script>
 
 @endsection

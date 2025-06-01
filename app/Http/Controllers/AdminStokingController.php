@@ -65,6 +65,7 @@ class AdminStokingController extends Controller
                         'id' => $item->id,
                         'id_barang' => $item->id_barang,
                         'nama_barang' => $item->cariBarang->nama_barang ?? 'deleted data', // fallback kalau null
+                        'satuan' => $item->cariBarang->satuan ?? 'deleted data', // fallback kalau null
                         'jumlah' => $item->jumlah,
                         'tanggal' => date('d F Y', strtotime($item->tanggal)),
                     ];
